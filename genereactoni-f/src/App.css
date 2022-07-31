@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  background-color: #5e687a;
 }
 
 .App-logo {
@@ -14,7 +15,7 @@
 }
 
 .App-header {
-  background-color: #282c34;
+  background-color: #5e687a;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -26,6 +27,29 @@
 
 .App-link {
   color: #61dafb;
+}
+
+.sidebarContainer {
+  width: 260px;
+  top:59px;
+  position: absolute;
+  background-color: #282c34;
+  height: 100%;
+  bottom: 0;
+  left: 0;
+  border-right: 1px solid black; 
+}
+
+.expandable {
+  background-color: #282c34;
+  width: 100%;
+  color: #fff;
+  border: none;
+}
+
+.draggable img{
+  margin-right: 5px;
+  margin-bottom: 5px;
 }
 
 @keyframes App-logo-spin {
