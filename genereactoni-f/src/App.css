@@ -52,6 +52,24 @@
   margin-bottom: 5px;
 }
 
+.canvasPan{
+  /* top:59px;
+  left:260px;
+  position: absolute; */
+  height: 100%;
+  width: 100%;
+  background-color: #5e687a;
+}
+
+.canvas{
+  top:59px;
+  left:260px;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background-color: #5e687a;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
