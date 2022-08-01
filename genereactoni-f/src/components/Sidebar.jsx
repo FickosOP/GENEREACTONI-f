@@ -47,7 +47,7 @@ function Sidebar(){
             <div className="sidebarBlockAdvanced" style={{display: displayAdvanced ? "" : "none"}}>
                 display
             </div>
-            <button className="button">Generate React project</button>
+            <button className="button" onClick={() => console.log("Generisi")}>Generate React project</button>
         </div>
     )
 }

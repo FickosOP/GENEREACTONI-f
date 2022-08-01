@@ -64,7 +64,7 @@ function HomePage(){
             </div>
             <TransformComponent
                 contentStyle={{ height: '100%', width: '100%', position:'relative', backgroundColor: '#5e687a'}}
-                wrapperStyle={{ height: '100%', width: '100%', position:'absolute', left: '260px', top: '59px', backgroundColor: '#5e687a'}}
+                wrapperStyle={{ height: '100%', width: '100%', position:'fixed', left: '260px', top: '59px', backgroundColor: '#5e687a', zIndex: -2}}
             >
                 <div className="canvasPan" ref={drop}>
                     {

@@ -4,16 +4,16 @@ import ModalBase from './ModalBase';
 
 function ModelComponent(props) {
 
-    const[component, setComponent] = useState({});
+    // const[component, setComponent] = useState({});
 
     const[showModal, setShowModal] = useState(false);
 
     // function save(){
     //     props.saveOne(component);
     // }
-    // useEffect(() => {
-    //     console.log(props);
-    // }, []);
+    useEffect(() => {
+        console.log(props);
+    });
 
     function getBgColor(type){
         if(type === 1 || type === 2){
@@ -47,16 +47,17 @@ function ModelComponent(props) {
 
     function modalHandler(result){
         console.log(result);
+        setShowModal(false);
     }
 
     return (
         <Draggable onDrag={props.onDrag} onStop={props.onStop}>
-            <div className='card' 
-                style={{top: `${props.top}px`, left: `${props.left}px`, backgroundColor: getBgColor(props.type), minHeight: '150px', width: '100px'}}
+            <div
+                style={{top: `${props.top}px`, left: `${props.left}px`, backgroundColor: getBgColor(props.type), minHeight: '150px', width: '100px', position: 'fixed', zIndex: -1}}
                 onClick={handleClick}
             >
                 { getName(props.type) }
-                { showModal && <ModalBase type={props.type} handler={modalHandler}/> }
+                { showModal && <ModalBase type={props.type} handler={modalHandler} /> }
             </div>
         </Draggable>
     );
