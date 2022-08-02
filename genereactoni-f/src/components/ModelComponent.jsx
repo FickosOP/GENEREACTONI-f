@@ -4,16 +4,16 @@ import ModalBase from './ModalBase';
 
 function ModelComponent(props) {
 
-    // const[component, setComponent] = useState({});
+    const[component, setComponent] = useState({});
 
     const[showModal, setShowModal] = useState(false);
 
     // function save(){
     //     props.saveOne(component);
     // }
-    useEffect(() => {
-        console.log(props);
-    });
+    // useEffect(() => {
+    //     // console.log(props);
+    // });
 
     function getBgColor(type){
         if(type === 1 || type === 2){
@@ -47,6 +47,7 @@ function ModelComponent(props) {
 
     function modalHandler(result){
         console.log(result);
+        setComponent(result);
         setShowModal(false);
     }
 
@@ -57,7 +58,7 @@ function ModelComponent(props) {
                 onClick={handleClick}
             >
                 { getName(props.type) }
-                { showModal && <ModalBase type={props.type} handler={modalHandler} /> }
+                { showModal && <ModalBase type={props.type} handler={modalHandler} active={showModal}/> }
             </div>
         </Draggable>
     );

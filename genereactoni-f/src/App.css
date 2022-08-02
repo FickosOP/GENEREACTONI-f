@@ -84,9 +84,19 @@
 }
 
 .modalniSadrzaj{
-  display: flex;
+  /* display: flex; */
   justify-content: center;
   justify-items: center;
+}
+
+.modalStates, .modalEffects, .modalChildren, .modalHtml {
+  width: 100%;
+  min-height: 350px;
+  height: 100%;
+  border: 1px solid #fff;
+  justify-content: center;
+  justify-items: center;
+  /* display: inline-flex; */
 }
 
 @keyframes App-logo-spin {
