@@ -46,8 +46,7 @@ function ModelComponent(props) {
     }
 
     function modalHandler(result){
-        console.log(result);
-        setComponent(result);
+        setComponent(result); //funkcija iz props?
         setShowModal(false);
     }
 

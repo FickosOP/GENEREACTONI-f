@@ -5,12 +5,16 @@ import { useState } from "react";
 import { useDrop } from "react-dnd";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import ModelComponent from "../components/ModelComponent";
+import { INITIAL_MODEL } from "../utils/initialModelState";
 
 function HomePage(){
 
     const [canvas, setCanvas] = useState([]);
 
     const [isMoving, setMoving] = useState(false);
+
+    //promenljiva koja cuva ceo projekat
+    const [model, setModel] = useState(INITIAL_MODEL);
 
     const [, drop] = useDrop(() => ({
         accept: "image",
@@ -40,12 +44,15 @@ function HomePage(){
     function onStop(){
         setMoving(true);
     }
+
+    function generateModel(){
+        //pass this as props
+    }
     return(
     
     <div className="App">
       <Header active="home" />
       <Sidebar />
-      {/* <button style={{position:"relative", zIndex:"1", backgroundColor: "#fff"}} onClick={() => setMoving(!isMoving)}>{isMoving ? "Pan & zoom" : "Drag and drop"}</button> */}
       <TransformWrapper
         initialScale={1}
         disabled={!isMoving}
@@ -70,8 +77,8 @@ function HomePage(){
                     {
                         canvas.map((picture) => {
                             // console.log(`W:${picture.x}\nH:${picture.y}`);
-                            // return <div style={{position:"absolute", top:`${picture.y}px`, left: `${picture.x}px`}}>dd</div>; //Instead of using picture use
-                            return <ModelComponent type={picture.type} top={picture.y - 59} left={picture.x - 260} onDrag={onDrag} onStop={onStop}/>;
+                            
+                            return <ModelComponent id={picture.id} type={picture.type} top={picture.y - 59} left={picture.x - 260} onDrag={onDrag} onStop={onStop}/>;
                         })
                     }
                 </div>
