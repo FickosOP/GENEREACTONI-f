@@ -1,23 +1,25 @@
 import React, { useEffect, useState } from 'react'
 import Modal from 'react-modal';
 import { Tabs, Tab, TabList, TabPanel } from 'react-tabs';
+import { useSelector } from 'react-redux';
 import 'react-tabs/style/react-tabs.css';
 
 Modal.setAppElement('#root');
 
 function ModalBase(props) {
 
-    const[component, setComponent] = useState({ path: "", name: "", states: [], effects: [], actions: [], return: "", children: ['f', 'g'] });
+    const[component, setComponent] = useState(props.currentState); 
+    
+    // useEffect(() => {
+    //     console.log(`Opening dialog for component ${props.id}`);
+    //     console.log(props.currentState);
+    // }, [props.id]);
 
     const[newState, setNewState] = useState({});
     
     const[newEffect, setNewEffect] = useState({});
 
     const[allComponents, setAllComponents] = useState(['a', 'b', 'c', 'd', 'e']);
-
-    function handlerWrapper(){
-        props.handler(component);
-    }
 
     function handleAddState(){
         if(component.states.filter(s => s.name == newState.name).length == 0)
@@ -127,7 +129,7 @@ function ModalBase(props) {
                     </div>
                 </TabPanel>
             </Tabs>
-            <button onClick={handlerWrapper}>Close</button>
+            <button onClick={() => props.handler(component)}>Close</button>
         </Modal>
     )
 }

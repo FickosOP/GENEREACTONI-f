@@ -32,3 +32,13 @@ export const INITIAL_MODEL = {
         utils: []
     }
 }
+
+export const INITIAL_COMPONENT_STATE = {
+    path: "",
+    name: "",
+    states: [],
+    effects: [],
+    actions: [],
+    return: "",
+    children: []
+}

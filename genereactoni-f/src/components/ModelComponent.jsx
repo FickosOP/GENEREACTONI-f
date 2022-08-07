@@ -4,16 +4,12 @@ import ModalBase from './ModalBase';
 
 function ModelComponent(props) {
 
-    const[component, setComponent] = useState({});
-
     const[showModal, setShowModal] = useState(false);
 
-    // function save(){
-    //     props.saveOne(component);
-    // }
     // useEffect(() => {
-    //     // console.log(props);
-    // });
+    //     // console.log(`Current state of component ${props.id}`);
+    //     // console.log(props.currentState);
+    // })
 
     function getBgColor(type){
         if(type === 1 || type === 2){
@@ -40,13 +36,15 @@ function ModelComponent(props) {
 
     function handleClick(e){
         if(e.detail === 2){
-            console.log("double click");
+            console.log(`Opening modal id: ${props.id}`);
             setShowModal(true);
         }
     }
 
     function modalHandler(result){
-        setComponent(result); //funkcija iz props?
+        result.id = props.id;
+        console.log(`modalHandler result id: ${result.id}`);
+        props.updateHandler(result);
         setShowModal(false);
     }
 
@@ -57,7 +55,7 @@ function ModelComponent(props) {
                 onClick={handleClick}
             >
                 { getName(props.type) }
-                { showModal && <ModalBase type={props.type} handler={modalHandler} active={showModal}/> }
+                { showModal && <ModalBase type={props.type} handler={modalHandler} active={showModal} currentState={props.currentState} id={props.id}/> }
             </div>
         </Draggable>
     );
