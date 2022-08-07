@@ -5,9 +5,9 @@ export const addElement = (el) => {
     }
 };
 
-export const updateElement = () => {
+export const updateElement = (el) => {
     return {
         type: 'UPDATE_ELEMENT',
-        payload: {}
+        payload: {...el}
     }
 };

@@ -4,17 +4,15 @@ import ModelComponent from "../components/ModelComponent";
 import { useState } from "react";
 import { useDrop } from "react-dnd";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
-import { INITIAL_COMPONENT_STATE, INITIAL_MODEL } from "../utils/initialModelState";
+import { INITIAL_COMPONENT_STATE } from "../utils/initialModelState";
 import { useSelector, useDispatch } from 'react-redux';
 import { addElement } from "../actions/actions";
 
 function HomePage(){
 
-    const [canvas, setCanvas] = useState([]);
-
     const [isMoving, setMoving] = useState(false);
 
-    const [model, setModel] = useState(INITIAL_MODEL);
+    const model = useSelector(state => state);
 
     const dispatch = useDispatch(); 
 
@@ -27,19 +25,12 @@ function HomePage(){
     }))
 
     const addImageToCanvas = (item, monitor) => {
-        let coordinates = monitor.getClientOffset()
-        let newComponent = { id: canvas.length + 1, url: item.url, x: coordinates.x, y: coordinates.y, type: item.id };
-        let nc = canvas;
-        if(item.added){
-            nc.push(newComponent);
-            // dispatch(addElement({...INITIAL_COMPONENT_STATE}));
-        }
-            
-        else{
-            nc[item.id - 1].x = coordinates.x;
-            nc[item.id - 1].y = coordinates.y; 
-        }
-        setCanvas(nc);
+        let coordinates = monitor.getClientOffset();
+
+        let componentState = Object.assign({}, INITIAL_COMPONENT_STATE, {x: coordinates.x, y: coordinates.y, type: item.id});
+        console.log(componentState);
+
+        dispatch(addElement(componentState));
     }
 
     function onDrag(){
@@ -54,56 +45,7 @@ function HomePage(){
         console.log(model);
     }
 
-    function changeOneComponent(updated){
-        console.log(`UPDATE EL WITH ID: ${updated.id}`); //DOBAR ID
-        console.log(updated); //LOS ID
-        if(updated.type == 2){
-            let copy = model.model?.pages;
-            console.log('IDS OF PAGES');
-            model.model.pages.map(p => console.log(p.id));
-            let elIndex = model.model?.pages?.findIndex((p => p.id === updated.id));
-            console.log('pages');
-            console.log(copy);
-            if(elIndex === -1)
-                copy.push(updated);
-            else
-                copy[elIndex] = updated; 
-            setModel({...model, model: {...model.model, pages: copy}});
-        }
-        else if(updated.type == 1){
-            let copy = model.model?.components;
-            let elIndex = model.model?.components?.findIndex((c => c.id === updated.id));
-            if(elIndex === -1)
-                copy.push(updated);
-            else
-                copy[elIndex] = updated;
-            setModel({...model, model: {...model.model, components: copy}});
-        }
-    }
-
-    function getCurrentState(id, type){
-        let def = Object.assign({}, INITIAL_COMPONENT_STATE);
-        def.type = type;
-        def.id = id;
-
-        let retval = undefined;
-
-        if(type === 1){
-            let oneComponent = model.model?.components?.filter(c => c.id === id);
-            // retval = oneComponent.length ? oneComponent[0] : def;
-            return oneComponent.length ? oneComponent[0] : def;
-        }
-        else if(type === 2){
-            let onePage = model.model?.pages?.filter(p => p.id === id);
-            // retval = onePage.length ? onePage[0] : def;
-            return onePage.length ? onePage[0] : def;
-        }
-        // console.log(`Current state for ${type == 1 ? 'component' : 'page'}: ${id} is`);
-        // console.log(retval);
-        // return retval;
-    }
     return(
-    
     <div className="App">
       <Header active="home" />
       <Sidebar generateHandler={generateModel}/>
@@ -129,8 +71,16 @@ function HomePage(){
             >
                 <div className="canvasPan" ref={drop}>
                     {
-                        canvas.map((picture) => {
-                            return <ModelComponent id={picture.id} type={picture.type} top={picture.y - 59} left={picture.x - 260} onDrag={onDrag} onStop={onStop} currentState={getCurrentState(picture.id, picture.type)} updateHandler={changeOneComponent} />;
+                        model.components?.map((comp) => {
+                            return <ModelComponent id={comp.id} type={comp.type} top={comp.y - 59} left={comp.x - 260} onDrag={onDrag} onStop={onStop} key={comp.id}/>
+                        })
+                        // canvas.map((picture) => {
+                        //     return <ModelComponent id={picture.id} type={picture.type} top={picture.y - 59} left={picture.x - 260} onDrag={onDrag} onStop={onStop} currentState={getCurrentState(picture.id, picture.type)} updateHandler={changeOneComponent} />;
+                        // })
+                    }
+                    {
+                        model.pages?.map((page) => {
+                            return <ModelComponent id={page.id} type={page.type} top={page.y - 59} left={page.x - 260} onDrag={onDrag} onStop={onStop} key={page.id}/>
                         })
                     }
                 </div>

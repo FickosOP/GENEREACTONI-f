@@ -1,35 +1,38 @@
 import React, { useEffect, useState } from 'react'
 import Modal from 'react-modal';
 import { Tabs, Tab, TabList, TabPanel } from 'react-tabs';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import 'react-tabs/style/react-tabs.css';
+import { updateElement } from '../actions/actions';
+import { reduxName } from '../utils/pipes';
 
 Modal.setAppElement('#root');
 
 function ModalBase(props) {
-
-    const[component, setComponent] = useState(props.currentState); 
     
-    // useEffect(() => {
-    //     console.log(`Opening dialog for component ${props.id}`);
-    //     console.log(props.currentState);
-    // }, [props.id]);
+    const componentInit = useSelector((state) => state[reduxName(props.type)].filter(el => el.id === props.id)[0]);
+
+    const dispatch = useDispatch();
+
+    const [component, setComponent] = useState(componentInit);
+
 
     const[newState, setNewState] = useState({});
     
     const[newEffect, setNewEffect] = useState({});
 
+    // const allComponentsInit = useSelector((state) => [...state.components, ...state.pages]);
     const[allComponents, setAllComponents] = useState(['a', 'b', 'c', 'd', 'e']);
 
     function handleAddState(){
-        if(component.states.filter(s => s.name == newState.name).length == 0)
+        if(component.states.filter(s => s.name === newState.name).length === 0)
             setComponent({...component, states: [...component.states, newState]});
     }
 
     function handleRemoveState(state){
-        setComponent({...component, states: component.states.filter(s => s.name != state)});
+        setComponent({...component, states: component.states.filter(s => s.name !== state)});
     }
-
+    
     return (
         <Modal
             isOpen={true}
@@ -95,7 +98,7 @@ function ModalBase(props) {
                         <ul>
                             {
                                 component.effects?.map((e) => {
-                                    return <li key={e.name}>{e.name}<button onClick={() => setComponent({...component, effects: component.effects.filter(eff => eff.name != e.name)})}>Remove</button></li>;
+                                    return <li key={e.name}>{e.name}<button onClick={() => setComponent({...component, effects: component.effects.filter(eff => eff.name !== e.name)})}>Remove</button></li>;
                                 })
                             }
                         </ul>
@@ -113,23 +116,27 @@ function ModalBase(props) {
                     <div style={{display: 'flex'}}>
                     
                     <table className='all'>
-                    {
-                        allComponents.map(child => {
-                            return <tr><td>{child}</td><td><button onClick={() => { setComponent({...component, children: [...component.children, child]}); setAllComponents(allComponents.filter(c => c != child))}}>Add</button></td></tr>
-                        })
-                    }
+                        <tbody>
+                        {
+                            allComponents.map(child => {
+                                return <tr key={child}><td>{child}</td><td><button onClick={() => { setComponent({...component, children: [...component.children, child]}); setAllComponents(allComponents.filter(c => c !== child)) }}>Add</button></td></tr>
+                            })
+                        }
+                        </tbody>
                     </table>
                     <table className='children'>
-                    {
-                        component.children?.map(child => {
-                            return <tr><td>{child}</td><td><button onClick={() => { setComponent({...component, children: component.children.filter(c => c != child)}); setAllComponents([...allComponents, child])}}>Remove</button></td></tr>
-                        })
-                    }
+                        <tbody>
+                        {
+                            component.children?.map(child => {
+                                return <tr key={child}><td>{child}</td><td><button onClick={() => { setComponent({...component, children: component.children.filter(c => c !== child)}); setAllComponents([...allComponents, child]) }}>Remove</button></td></tr>
+                            })
+                        }
+                        </tbody>
                     </table>
                     </div>
                 </TabPanel>
             </Tabs>
-            <button onClick={() => props.handler(component)}>Close</button>
+            <button onClick={() => {dispatch(updateElement(component)); props.handler(component)}}>Close</button>
         </Modal>
     )
 }
