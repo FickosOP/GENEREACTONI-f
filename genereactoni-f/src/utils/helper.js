@@ -1,8 +1,9 @@
 export function getBgColor(type){
     switch(type){
         case 1:
-        case 2:
             return "#61dafb";
+        case 2:
+            return "#19667B";
         default:
             return "#ffff00";
     }

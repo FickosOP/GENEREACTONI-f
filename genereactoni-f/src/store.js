@@ -1,8 +1,8 @@
 import { createStore } from 'redux';
-import modelReducer from './reducers/model';
+import allReducers from './reducers/group';
 
 const store = createStore(
-    modelReducer,
+    allReducers,
     window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 );
 

@@ -5,7 +5,7 @@ let counter = 0;
 const modelReducer = (state = INITIAL_MODEL.model, action) => {
     switch(action.type){
         case 'ADD_ELEMENT':
-            console.log(action.payload);
+            // console.log(action.payload);
             switch(action.payload.type){
                 case 1:
                     return {...state, components: [...state.components, {...action.payload, id: ++counter}]};
@@ -17,7 +17,7 @@ const modelReducer = (state = INITIAL_MODEL.model, action) => {
                     return state;
             }
         case 'UPDATE_ELEMENT':
-            console.log(action.payload);
+            // console.log(action.payload);
             switch(action.payload.type){
                 case 1:
                     let arrCopy = Object.assign([], state.components);

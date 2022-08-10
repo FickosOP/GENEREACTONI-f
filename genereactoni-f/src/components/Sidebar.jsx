@@ -1,11 +1,11 @@
 import { useState } from "react";
 import Picture from "./Picture";
 
-import comp from "../assets/images/component.png";
-import page from "../assets/images/page.png";
-import serv from "../assets/images/service.png";
-import util from "../assets/images/util.png";
-import { postObject } from "../services/axiosService";
+import comp from "../assets/images/component.svg";
+import page from "../assets/images/page.svg";
+import serv from "../assets/images/service.svg";
+import util from "../assets/images/util.svg";
+// import { postObject } from "../services/axiosService";
 
 const pictureList = [
     {
@@ -48,7 +48,7 @@ function Sidebar(props){
             <div className="sidebarBlockAdvanced" style={{display: displayAdvanced ? "" : "none"}}>
                 display
             </div>
-            <button className="button" onClick={() => props.generateHandler()}>Generate React project</button>
+            <button className="modalButton" onClick={() => props.generateHandler()} style={{marginTop: '50px'}}>Generate React project</button>
         </div>
     )
 }

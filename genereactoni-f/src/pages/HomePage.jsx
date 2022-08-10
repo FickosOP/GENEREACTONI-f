@@ -4,15 +4,17 @@ import ModelComponent from "../components/ModelComponent";
 import { useState } from "react";
 import { useDrop } from "react-dnd";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
-import { INITIAL_COMPONENT_STATE } from "../utils/initialModelState";
+import { addPathToModel, INITIAL_COMPONENT_STATE, INITIAL_MODEL } from "../utils/initialModelState";
 import { useSelector, useDispatch } from 'react-redux';
 import { addElement } from "../actions/actions";
+import { postObject } from "../services/axiosService";
 
 function HomePage(){
 
     const [isMoving, setMoving] = useState(false);
 
-    const model = useSelector(state => state);
+    const model = useSelector(state => state.modelReducer);
+    const structure = useSelector(state => state.structureReducer);
 
     const dispatch = useDispatch(); 
 
@@ -42,7 +44,14 @@ function HomePage(){
     }
 
     function generateModel(){
-        console.log(model);
+        let full = Object.assign({}, INITIAL_MODEL);
+        full.structure = structure;
+        full.model = model;
+        full = addPathToModel('root', full);
+        console.log(full);
+        // postObject('model/generate', full, (response) => {
+        //     console.log(response.data);
+        // });
     }
 
     return(

@@ -11,3 +11,17 @@ export const updateElement = (el) => {
         payload: {...el}
     }
 };
+
+export const addToStructure = (path, file) => {
+    return {
+        type: 'ADD_TO_STRUCTURE',
+        payload: {path, file}
+    }
+}
+
+export const removeFromStructure = (path) => {
+    return {
+        type: 'REMOVE_FROM_STRUCTURE',
+        payload: {path}
+    }
+}

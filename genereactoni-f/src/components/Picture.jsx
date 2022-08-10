@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDrag } from "react-dnd";
 
-function Picture({id, url, inCanvas, left, top}) {
+function Picture({id, url, inCanvas}) {
     const [{ isDragging }, drag] = useDrag(() => ({
         type: "image",
         item: {id: id, url: url, added: !inCanvas},
@@ -10,7 +10,7 @@ function Picture({id, url, inCanvas, left, top}) {
         }),
     }));
     return (
-        <img src={url} alt={`comp: ${id}`} style={{border: isDragging ? "3px solid white": "", position: inCanvas ? "absolute" : "static", top: `${top}px`, left: `${left}px`}} ref={drag}/>
+        <img src={url} alt={`comp: ${id}`} style={{border: isDragging ? "1px solid white": ""}} ref={drag}/>
         // style={{border: isDragging ? "3px solid black": ""}} ref={drag}
     )
 }
