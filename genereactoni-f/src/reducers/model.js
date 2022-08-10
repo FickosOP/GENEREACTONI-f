@@ -8,9 +8,9 @@ const modelReducer = (state = INITIAL_MODEL.model, action) => {
             // console.log(action.payload);
             switch(action.payload.type){
                 case 1:
-                    return {...state, components: [...state.components, {...action.payload, id: ++counter}]};
+                    return {...state, components: [...state.components, {...action.payload, id: state.components.length + 1}]};
                 case 2:
-                    return {...state, pages: [...state.pages, {...action.payload, id: ++counter}]};
+                    return {...state, pages: [...state.pages, {...action.payload, id: state.pages.length + 1}]};
                 case 3:
                 case 4:
                 default:
@@ -35,6 +35,8 @@ const modelReducer = (state = INITIAL_MODEL.model, action) => {
         case 'REMOVE ELEMENT':
             console.log(action.payload); 
             return state; //change
+        case 'LOAD_PROJECT':
+            return action.payload.full.model;
         default:
             return state;
     }

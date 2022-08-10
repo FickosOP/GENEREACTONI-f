@@ -30,6 +30,8 @@ const structureReducer = (state = INITIAL_MODEL.structure, action) => {
         case 'REMOVE_FROM STRUCTURE':
             console.log(action.payload);
             return state;
+        case 'LOAD_PROJECT':
+            return action.payload.full.structure;
         default: 
             return state;
     }

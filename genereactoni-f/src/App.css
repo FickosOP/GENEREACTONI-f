@@ -137,6 +137,23 @@
   background-color: #5e687a;
 }
 
+.usersModels{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  background-color: #5e687a;
+  min-height: 100vh;
+}
+
+.modelCard{
+  margin-top: 20px;
+  height: 250px;
+  width: 300px;
+  background-color: #282c34;
+  border: 2px solid #61dafb;
+  color: #61dafb
+}
+
 .scroll::-webkit-scrollbar {
   width: 5px;
 }

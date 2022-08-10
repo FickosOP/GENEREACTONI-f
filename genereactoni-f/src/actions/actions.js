@@ -25,3 +25,11 @@ export const removeFromStructure = (path) => {
         payload: {path}
     }
 }
+
+
+export const loadModel = (full) => {
+    return {
+        type: 'LOAD_PROJECT',
+        payload: {full}
+    }
+}

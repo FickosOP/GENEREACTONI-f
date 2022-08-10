@@ -47,8 +47,15 @@ function HomePage(){
         let full = Object.assign({}, INITIAL_MODEL);
         full.structure = structure;
         full.model = model;
-        full = addPathToModel('root', full);
+        full = addPathToModel('root', full); //probably not neccessary if downloading
         console.log(full);
+        full.name = 'nesto_drugacije';
+        postObject('model/', full, (response) => {
+            console.log(response.data);
+            if(response.data.acknowledged){
+                alert('Saved!');
+            }
+        })
         // postObject('model/generate', full, (response) => {
         //     console.log(response.data);
         // });
