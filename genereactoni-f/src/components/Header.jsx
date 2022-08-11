@@ -1,8 +1,13 @@
 // import logo from "/docs/4.0/assets/brand/bootstrap-solid.svg";
+import { useSelector, useDispatch } from 'react-redux';
+import { removeUserTokenState } from '../actions/actions';
 
 function Header(props){ //props -> active
 
     const active = props.active;
+
+    const model = useSelector(state => state.authReducer);
+    const dispatch = useDispatch();
 
     return(
             <nav className="navbar navbar-expand navbar-dark bg-dark">
@@ -22,7 +27,10 @@ function Header(props){ //props -> active
                     <a className={active === "about" ? "nav-link active" : "nav-link"} href="/about">About</a>
                     </li>
                     <li className="nav-item">
-                    <a className={active === "profile" ? "nav-link active" : "nav-link"} href="/" tabIndex="-1">Profile</a>
+                    <a className={active === "profile" ? "nav-link active" : "nav-link"} href="/">Profile</a>
+                    </li>
+                    <li className="nav-item">
+                    <a className={active === "profile" ? "nav-link active" : "nav-link"} href="/login" onClick={() => dispatch(removeUserTokenState())} tabIndex="-1">{model.id ? "Logout" : "Login"}</a>
                     </li>
                 </ul>
                 </div>

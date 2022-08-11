@@ -31,8 +31,8 @@ function Projects(){
             <div className="usersModels">
                 {
                     models.map((model) => {
-                        return <div className="modelCard" onClick={() => handleOpenProject(model)}>
-                                model
+                        return <div key={model._id} className="modelCard" onClick={() => handleOpenProject(model)}>
+                                {model.name}
                             </div>
                     })
                 }

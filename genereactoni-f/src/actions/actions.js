@@ -33,3 +33,17 @@ export const loadModel = (full) => {
         payload: {full}
     }
 }
+
+export const saveUserTokenState = (data) => {
+    return {
+        type: 'ADD_USER_AUTH',
+        payload: {...data}
+    }
+}
+
+export const removeUserTokenState = () => {
+    return {
+        type: 'REMOVE_USER_AUTH',
+        
+    }
+}

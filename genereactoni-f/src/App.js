@@ -5,6 +5,8 @@ import HomePage from './pages/HomePage';
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import Projects from './pages/Projects';
+import LoginPage from './pages/LoginPage';
+import RegisterPage from './pages/RegisterPage';
 
 function App() {
   return (
@@ -13,6 +15,8 @@ function App() {
         <Routes>
           <Route exact path = "/" element={<HomePage />} />
           <Route exact path = "/projects" element={<Projects />} />
+          <Route exact path = "/login" element={<LoginPage />} />
+          <Route exact path = "/register" element={<RegisterPage />} />
         </Routes>
       </Router>
     </DndProvider>
