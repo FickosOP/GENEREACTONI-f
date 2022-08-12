@@ -5,10 +5,13 @@ const structureReducer = (state = INITIAL_MODEL.structure, action) => {
         case 'ADD_TO_STRUCTURE':
             let tokens = action.payload.path.split('/');
             let i = 0
-            
+            console.log(tokens);
             const dfs = (level = state, folderToAdd = tokens[i]) => {
                 if(i >= tokens.length - 1){
                     return state;
+                }
+                if(level.folder == tokens[i]){
+                    dfs(level, tokens[++i])
                 }
                 console.log(`I: ${i}, tokens.length: ${tokens.length}`);
                 console.log(`Current folder: ${level.folder}`);
@@ -32,6 +35,8 @@ const structureReducer = (state = INITIAL_MODEL.structure, action) => {
             return state;
         case 'LOAD_PROJECT':
             return action.payload.full.structure;
+        case 'NEW_PROJECT':
+            return Object.assign({}, INITIAL_MODEL.structure);
         default: 
             return state;
     }

@@ -8,9 +8,9 @@ const modelReducer = (state = INITIAL_MODEL.model, action) => {
             // console.log(action.payload);
             switch(action.payload.type){
                 case 1:
-                    return {...state, components: [...state.components, {...action.payload, id: state.components.length + 1}]};
+                    return {...state, components: [...state.components, {...action.payload, id: state.components.length + 1, path: '/src/components'}]};
                 case 2:
-                    return {...state, pages: [...state.pages, {...action.payload, id: state.pages.length + 1}]};
+                    return {...state, pages: [...state.pages, {...action.payload, id: state.pages.length + 1, path: '/src/pages'}]};
                 case 3:
                 case 4:
                 default:
@@ -32,11 +32,19 @@ const modelReducer = (state = INITIAL_MODEL.model, action) => {
                 default:
                     return state;
             }
-        case 'REMOVE ELEMENT':
-            console.log(action.payload); 
-            return state; //change
+        case 'REMOVE_ELEMENT':
+            switch(action.payload.type){
+                case 1:
+                    return {...state, components: state.components.filter(c => c.id !== action.payload.id)}
+                case 2:
+                    return {...state, pages: state.pages.filter(p => p.id !== action.payload.id)}
+                default:
+                    return state;
+            }
         case 'LOAD_PROJECT':
             return action.payload.full.model;
+        case 'NEW_PROJECT':
+            return Object.assign({}, INITIAL_MODEL.model);
         default:
             return state;
     }

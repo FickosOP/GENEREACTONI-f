@@ -25,14 +25,23 @@ function Projects(){
         navigate("/", {replace: true});
     }
 
+    function deleteModel(id){
+        // console.log(id);
+        // let confirm = confirm("Are you sure you want to delete this project? Operation cannot be undone!");
+        // if(confirm)
+        //     console.log('Delete');//send axios request
+        console.log(`send axios delete with id : ${id}`)
+    }
+
     return(
         <div>
             <Header />
             <div className="usersModels">
                 {
                     models.map((model) => {
-                        return <div key={model._id} className="modelCard" onClick={() => handleOpenProject(model)}>
+                        return <div key={model._id} className="modelCard" onDoubleClick={() => handleOpenProject(model)} style={{position: 'relative'}}>
                                 {model.name}
+                                <button style={{position: 'absolute', bottom: '5px', right: '5px', border:'none', backgroundColor: 'red'}} onClick={() => deleteModel(model._id)}>Delete</button>
                             </div>
                     })
                 }

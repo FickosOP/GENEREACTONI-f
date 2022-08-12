@@ -26,9 +26,9 @@ function Header(props){ //props -> active
                     <li className="nav-item">
                     <a className={active === "about" ? "nav-link active" : "nav-link"} href="/about">About</a>
                     </li>
-                    <li className="nav-item">
+                    {model.id && <li className="nav-item">
                     <a className={active === "profile" ? "nav-link active" : "nav-link"} href="/">Profile</a>
-                    </li>
+                    </li>}
                     <li className="nav-item">
                     <a className={active === "profile" ? "nav-link active" : "nav-link"} href="/login" onClick={() => dispatch(removeUserTokenState())} tabIndex="-1">{model.id ? "Logout" : "Login"}</a>
                     </li>

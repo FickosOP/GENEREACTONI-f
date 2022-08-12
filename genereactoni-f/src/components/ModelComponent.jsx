@@ -1,15 +1,27 @@
 import React, { useEffect, useState } from 'react'
 import Draggable from 'react-draggable';
 import { getBgColor, getName } from '../utils/helper';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import ModalBase from './ModalBase';
 import { reduxName } from '../utils/pipes';
+import { removeElement } from '../actions/actions';
 
 function ModelComponent(props) {
 
     const component = useSelector((state) => state.modelReducer[reduxName(props.type)].filter(el => el.id === props.id)[0]);
 
     const[showModal, setShowModal] = useState(false);
+
+    const[showContextMenu, setShowContextMenu] = useState(false);
+    const[points, setPoints] = useState({x: 0, y: 0});
+
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        const handleWindowClick = () => setShowContextMenu(false);
+        window.addEventListener('click', handleWindowClick);
+        return () => window.removeEventListener('click', handleWindowClick);
+    }, [])
 
     function handleClick(e){
         if(e.detail === 2)
@@ -20,11 +32,29 @@ function ModelComponent(props) {
         setShowModal(false);
     }
 
+    function handleStop(e){
+        console.log(e); //CHANGE TOP, LEFT
+        props.onStop();
+    }
+
+    function handleContextClick(e){
+        e.preventDefault();
+        let offsetX = props.left + 260;
+        let offsetY = props.top + 59;
+        setPoints({x: e.pageX - offsetX, y: e.pageY - offsetY});
+        setShowContextMenu(true);
+    }
+
+    function handleDelete(){
+        dispatch(removeElement(props.id, props.type));
+    }
+
     return (
-        <Draggable onDrag={props.onDrag} onStop={props.onStop}>
+        <Draggable onDrag={props.onDrag} onStop={handleStop}>
             <div
                 style={{top: `${props.top}px`, left: `${props.left}px`, backgroundColor: getBgColor(props.type), minHeight: '150px', minWidth: '130px', width: `${component.name.length * 10}px`, position: 'fixed', zIndex: -1, display:'flex'}}
                 onClick={handleClick}
+                onContextMenu={handleContextClick}
             >
                 <div
                     style={{position: 'absolute', width: '100%', display: 'flex', justifyContent: 'center'}}
@@ -59,6 +89,13 @@ function ModelComponent(props) {
                 </div>
                 
                 { showModal && <ModalBase type={props.type} handler={modalHandler} active={showModal} id={props.id}/> }
+                { 
+                showContextMenu && 
+                <div className='contextMenu' style={{top: `${points.y}px`, left: `${points.x}px`}}>
+                    <button onClick={() => setShowModal(true)}>Show</button>
+                    <button onClick={() => handleDelete()}>Delete</button>
+                </div>
+                }
             </div>
         </Draggable>
     );

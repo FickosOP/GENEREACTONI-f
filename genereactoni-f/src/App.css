@@ -154,6 +154,24 @@
   color: #61dafb
 }
 
+.contextMenu{
+  position: absolute;
+  padding: 3px;
+  box-sizing: border-box;
+  max-width: 100px;
+  top: 40px;
+  left: 20px;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.contextMenu button{
+  border: none;
+  background-color: white;
+}
+
 .scroll::-webkit-scrollbar {
   width: 5px;
 }

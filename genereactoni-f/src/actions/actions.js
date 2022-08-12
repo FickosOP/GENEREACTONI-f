@@ -19,10 +19,10 @@ export const addToStructure = (path, file) => {
     }
 }
 
-export const removeFromStructure = (path) => {
+export const removeElement = (id, type) => {
     return {
-        type: 'REMOVE_FROM_STRUCTURE',
-        payload: {path}
+        type: 'REMOVE_ELEMENT',
+        payload: {id, type}
     }
 }
 
@@ -31,6 +31,12 @@ export const loadModel = (full) => {
     return {
         type: 'LOAD_PROJECT',
         payload: {full}
+    }
+}
+
+export const newProject = () => {
+    return {
+        type: 'NEW_PROJECT'
     }
 }
 

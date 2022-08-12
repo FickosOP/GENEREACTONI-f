@@ -1,10 +1,13 @@
 import { useState } from "react";
 import Picture from "./Picture";
+import { useDispatch } from "react-redux";
 
 import comp from "../assets/images/component.svg";
 import page from "../assets/images/page.svg";
 import serv from "../assets/images/service.svg";
 import util from "../assets/images/util.svg";
+import { newProject } from "../actions/actions";
+import { INITIAL_MODEL } from "../utils/initialModelState";
 
 const pictureList = [
     {
@@ -31,8 +34,12 @@ function Sidebar(props){
 
     const [displayAdvanced, setDisplayAdvanced] = useState(true);
 
+    const dispatch = useDispatch();
+
     return(
         <div className="sidebarContainer" >
+            <button className="modalButton" onClick={() => dispatch(newProject())}>Create new project</button>
+            <hr />
             <button className="expandable" onClick={() => setDisplayGeneral(!displayGeneral)}>General</button>
             <div className="sidebarBlockGeneral" style={{display: displayGeneral ? "" : "none"}}>
                 <div className="draggable">
