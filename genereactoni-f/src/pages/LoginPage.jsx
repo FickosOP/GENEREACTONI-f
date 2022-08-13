@@ -3,6 +3,7 @@ import { postObject } from "../services/axiosService";
 import { saveUserTokenState } from "../actions/actions";
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { minHeight } from "@mui/system";
 
 function LoginPage(){
     
@@ -24,13 +25,15 @@ function LoginPage(){
     }
 
     return(
-        <div>
-            <div>
-                <input type="text" onChange={(e) => setUsername(e.target.value)} placeholder="Username"/>
-                <input type="password" onChange={(e) => setPassword(e.target.value)} placeholder="Password"/>
-                <button onClick={login}>Login</button>
-                <a href="/">Continue without account</a>
-                <a href="/register">Register</a>
+        <div className="App-header" style={{justifyContent: 'center'}}> 
+            <div style={{width: '50%', display:'flex', flexDirection: 'column', minHeight: '500px'}}>
+                <input type="text" onChange={(e) => setUsername(e.target.value)} placeholder="Username" className="loginInput"/>
+                <input type="password" onChange={(e) => setPassword(e.target.value)} placeholder="Password" className="loginInput"/>
+                <button onClick={login} className="loginButton">Login</button>
+                <div>
+                <a href="/" style={{color: '#61dafb'}}>Continue without account</a><br/>
+                <a href="/register" style={{color: '#61dafb'}}>Register</a>
+                </div>
             </div>
         </div>
     )

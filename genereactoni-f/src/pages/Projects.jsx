@@ -41,7 +41,7 @@ function Projects(){
                     models.map((model) => {
                         return <div key={model._id} className="modelCard" onDoubleClick={() => handleOpenProject(model)} style={{position: 'relative'}}>
                                 {model.name}
-                                <button style={{position: 'absolute', bottom: '5px', right: '5px', border:'none', backgroundColor: 'red'}} onClick={() => deleteModel(model._id)}>Delete</button>
+                                <button className="deleteProjectButton" onClick={() => deleteModel(model._id)}>Delete</button>
                             </div>
                     })
                 }

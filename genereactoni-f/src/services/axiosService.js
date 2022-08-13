@@ -1,6 +1,10 @@
 import axios from 'axios';
 import { API_URL } from '../config';
 import { store } from "../store"
+import { saveAs } from 'file-saver';
+import FileSaver from 'file-saver';
+import fileDownload from 'js-file-download';
+import download from 'downloadjs';
 
 const request = axios.create({});
 
@@ -21,6 +25,22 @@ export function postObject(path, obj, callback){
     .catch(error => {
         console.log(error);
     });
+}
+
+export function downloadZip(path, obj, callback){
+    axios.post(`${API_URL}/${path}`, obj, {responseType: 'blob'})
+    .then((res) => {
+        fileDownload(res.data, 'xxx.zip');
+    })
+    // request.post(`${API_URL}/${path}`, obj)
+    // .then(response => {
+    //     // FileSaver.saveAs(response.blob(), 'dawdada.zip');
+    //     console.log(response);
+    //     // download(new Blob([response], {type: 'application/zip'}), 'dxxxxx.zip', 'application/zip');
+    // })
+    // .catch(error => {
+    //     console.log(error);
+    // })
 }
 
 export function getAllModelsForUser(callback){

@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Draggable from 'react-draggable';
 import { getBgColor, getName } from '../utils/helper';
 import { useSelector, useDispatch } from 'react-redux';
 import ModalBase from './ModalBase';
 import { reduxName } from '../utils/pipes';
-import { removeElement } from '../actions/actions';
+import { removeElement, updateElement } from '../actions/actions';
 
 function ModelComponent(props) {
 
@@ -14,6 +14,8 @@ function ModelComponent(props) {
 
     const[showContextMenu, setShowContextMenu] = useState(false);
     const[points, setPoints] = useState({x: 0, y: 0});
+
+    const ref = useRef(null);
 
     const dispatch = useDispatch();
 
@@ -34,6 +36,9 @@ function ModelComponent(props) {
 
     function handleStop(e){
         console.log(e); //CHANGE TOP, LEFT
+        console.log(ref.current.state.x);
+        console.log(ref.current.state.y);
+        //dispatch(updateElement({...component, x: component.x + ref.current.state.x, y: component.y + ref.current.state.y})); -> FIX THE DROP POSITION AND IT WILL WORK NICELY || SAVE BACKUP POSITION
         props.onStop();
     }
 
@@ -50,8 +55,9 @@ function ModelComponent(props) {
     }
 
     return (
-        <Draggable onDrag={props.onDrag} onStop={handleStop}>
+        <Draggable onDrag={props.onDrag} onStop={handleStop} ref={ref}>
             <div
+                id={`${props.id}-${props.type}`}
                 style={{top: `${props.top}px`, left: `${props.left}px`, backgroundColor: getBgColor(props.type), minHeight: '150px', minWidth: '130px', width: `${component.name.length * 10}px`, position: 'fixed', zIndex: -1, display:'flex'}}
                 onClick={handleClick}
                 onContextMenu={handleContextClick}

@@ -7,7 +7,8 @@ import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import { addPathToModel, INITIAL_COMPONENT_STATE, INITIAL_MODEL } from "../utils/initialModelState";
 import { useSelector, useDispatch } from 'react-redux';
 import { addElement } from "../actions/actions";
-import { postObject } from "../services/axiosService";
+import { download, downloadZip, postObject } from "../services/axiosService";
+import { getOffsetForItem } from "../utils/helper";
 
 function HomePage(){
 
@@ -25,11 +26,15 @@ function HomePage(){
             isOver: !!monitor.isOver(),
         })
     }))
-
+    
     const addImageToCanvas = (item, monitor) => {
+        let initClient = monitor.getInitialClientOffset();
+        let itemOffset = getOffsetForItem(item.id);
+        let divOffset = {x: initClient.x - itemOffset.x, y: initClient.y - itemOffset.y}
+        
         let coordinates = monitor.getClientOffset();
 
-        let componentState = Object.assign({}, INITIAL_COMPONENT_STATE, {x: coordinates.x, y: coordinates.y, type: item.id});
+        let componentState = Object.assign({}, INITIAL_COMPONENT_STATE, {x: coordinates.x - divOffset.x, y: coordinates.y - divOffset.y, type: item.id});
         console.log(componentState);
 
         dispatch(addElement(componentState));
@@ -47,19 +52,8 @@ function HomePage(){
         let full = Object.assign({}, INITIAL_MODEL);
         full.structure = structure;
         full.model = model;
-        // full = addPathToModel('root', full); //probably not neccessary if downloading
         console.log(full);
-        full.name = 'nesto_drugacije'; //DIALOG
-        // postObject('model/', full, (response) => {
-        //     console.log(response.data);
-        //     if(response.data.acknowledged){
-        //         alert('Saved!');
-        //     }
-        // }) -> SAVE
-
-        // postObject('model/generate', full, (response) => {
-        //     console.log(response.data);
-        // }); -> GENERATE
+        downloadZip('model/generate', full); 
     }
 
     return(
@@ -82,6 +76,7 @@ function HomePage(){
                 <button onClick={() => zoomOut()}>-</button>
                 <button onClick={() => resetTransform()}>x</button>
             </div> */}
+            <button onClick={() => resetTransform()} style={{border:'none', background: 'none', color: 'white', position: 'fixed', top: '60px', left: '260px'}}>Reset</button>
             <TransformComponent
                 contentStyle={{ height: '100%', width: '100%', position:'relative', backgroundColor: '#5e687a'}}
                 wrapperStyle={{ height: '100%', width: '100%', position:'fixed', left: '260px', top: '59px', backgroundColor: '#5e687a', zIndex: -2}}
