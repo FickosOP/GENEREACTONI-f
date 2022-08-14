@@ -1,7 +1,7 @@
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
 import ModelComponent from "../components/ModelComponent";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDrop } from "react-dnd";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import { addPathToModel, INITIAL_COMPONENT_STATE, INITIAL_MODEL } from "../utils/initialModelState";
@@ -9,6 +9,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { addElement } from "../actions/actions";
 import { download, downloadZip, postObject } from "../services/axiosService";
 import { getOffsetForItem } from "../utils/helper";
+import Xarrow, {useXarrow} from "react-xarrows";
 
 function HomePage(){
 
@@ -16,6 +17,8 @@ function HomePage(){
 
     const model = useSelector(state => state.modelReducer);
     const structure = useSelector(state => state.structureReducer);
+
+    const updateArrows = useXarrow();
 
     const dispatch = useDispatch(); 
 
@@ -42,9 +45,11 @@ function HomePage(){
 
     function onDrag(){
         setMoving(false);
+        updateArrows();
     }
 
     function onStop(){
+        updateArrows();
         setMoving(true);
     }
 
@@ -68,15 +73,13 @@ function HomePage(){
         pinch={{step: 5}}
         limitToBounds={false}
         doubleClick={{disabled: true}}
+        onZoom={updateArrows}
+        onPanning={updateArrows}
+        zoomAnimation={{disabled: true}}
       >
         {({ zoomIn, zoomOut, resetTransform, ...rest }) => (
             <>
-            {/* <div className="tools">
-                <button onClick={() => zoomIn()}>+</button>
-                <button onClick={() => zoomOut()}>-</button>
-                <button onClick={() => resetTransform()}>x</button>
-            </div> */}
-            <button onClick={() => resetTransform()} style={{border:'none', background: 'none', color: 'white', position: 'fixed', top: '60px', left: '260px'}}>Reset</button>
+            <button onClick={() => { resetTransform(0); updateArrows();}} style={{border:'none', background: 'none', color: 'white', position: 'fixed', top: '60px', left: '260px'}}>Reset</button>
             <TransformComponent
                 contentStyle={{ height: '100%', width: '100%', position:'relative', backgroundColor: '#5e687a'}}
                 wrapperStyle={{ height: '100%', width: '100%', position:'fixed', left: '260px', top: '59px', backgroundColor: '#5e687a', zIndex: -2}}
@@ -86,9 +89,6 @@ function HomePage(){
                         model.components?.map((comp) => {
                             return <ModelComponent id={comp.id} type={comp.type} top={comp.y - 59} left={comp.x - 260} onDrag={onDrag} onStop={onStop} key={comp.id}/>
                         })
-                        // canvas.map((picture) => {
-                        //     return <ModelComponent id={picture.id} type={picture.type} top={picture.y - 59} left={picture.x - 260} onDrag={onDrag} onStop={onStop} currentState={getCurrentState(picture.id, picture.type)} updateHandler={changeOneComponent} />;
-                        // })
                     }
                     {
                         model.pages?.map((page) => {
@@ -100,6 +100,28 @@ function HomePage(){
             </>
         )}
       </TransformWrapper>
+      {
+        model.pages?.map((page, i) => (
+            page.children?.map((child, j) => (
+                <Xarrow
+                    key={`p${i},${j}`}
+                    start={page.name}
+                    end={child}
+                />
+            ))
+        ))
+      }
+      {
+        model.components?.map((component, i) => (
+            component.children?.map((child, j) => (
+                <Xarrow
+                    key={`c${i},${j}`} 
+                    start={component.name}
+                    end={child}
+                />
+            ))
+        ))
+      }
     </div>
     
     )

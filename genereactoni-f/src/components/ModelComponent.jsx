@@ -57,7 +57,7 @@ function ModelComponent(props) {
     return (
         <Draggable onDrag={props.onDrag} onStop={handleStop} ref={ref}>
             <div
-                id={`${props.id}-${props.type}`}
+                id={`${component.name}`}
                 style={{top: `${props.top}px`, left: `${props.left}px`, backgroundColor: getBgColor(props.type), minHeight: '150px', minWidth: '130px', width: `${component.name.length * 10}px`, position: 'fixed', zIndex: -1, display:'flex'}}
                 onClick={handleClick}
                 onContextMenu={handleContextClick}
