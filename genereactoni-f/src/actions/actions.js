@@ -53,3 +53,22 @@ export const removeUserTokenState = () => {
         
     }
 }
+
+export const showArrows = () => {
+    return {
+        type: 'SHOW_ARROWS',
+    }
+}
+
+export const hideArrows = () => {
+    return {
+        type: 'HIDE_ARROWS',
+    }
+}
+
+export const changeArrowType = (type) => {
+    return {
+        type: 'CHANGE_ARROW_TYPE',
+        payload: type
+    }
+}

@@ -114,6 +114,7 @@
   color: #61dafb;
   height: 30px;
   border-radius: 10%;
+  outline: none;
 }
 
 .closeModalButton{
@@ -173,15 +174,39 @@
   background-color: white;
 }
 
+.loginWrapper{
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  min-height: 500px;
+  justify-content: space-evenly;
+  border: none;
+  border-radius: 20px;
+  background-color: #282c34;
+  padding: 20px;
+}
+
 .loginInput{
   border: none;
-  border-radius: 4px;
-  background-color: #bdf1ff;
+  /* background-color: #bdf1ff; */
+  background: none;
+  border-bottom: 2px solid #61dafb;
+  color: white;
+  outline: none;
+}
+
+.required{
+  min-width: 90%;
+}
+.required:after{
+  width: 10%;
+  content: " *";
+  color: #5bbcd7;
 }
 
 .loginButton{
   border:none;
-  border-radius: 5px;
+  border-radius: 25px;
   background-color: #173f49;
   color: #5bbcd7;
 }
@@ -194,6 +219,22 @@
   right: 5px; 
   border: none;
   background: none;
+}
+
+.sidebarButton{
+  border: none;
+  border-radius: 25px;
+  margin-bottom: 10px;
+  margin-left: 5px;
+  margin-right: 5px;
+  min-height: 50px;
+  background-color: #61dafb;
+  color: black;
+  font-size: larger;
+}
+
+.reactColor{
+  color: #61dafb;
 }
 
 .scroll::-webkit-scrollbar {

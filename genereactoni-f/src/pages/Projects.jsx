@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { loadModel } from "../actions/actions";
 import Header from "../components/Header";
+import ProjectPreview from "../components/ProjectPreview";
 import { getAllModelsForUser } from "../services/axiosService";
 
 function Projects(){
@@ -41,6 +42,7 @@ function Projects(){
                     models.map((model) => {
                         return <div key={model._id} className="modelCard" onDoubleClick={() => handleOpenProject(model)} style={{position: 'relative'}}>
                                 {model.name}
+                                <ProjectPreview model={model.model} />
                                 <button className="deleteProjectButton" onClick={() => deleteModel(model._id)}>Delete</button>
                             </div>
                     })

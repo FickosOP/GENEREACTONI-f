@@ -15,7 +15,7 @@ function ModelComponent(props) {
     const[showContextMenu, setShowContextMenu] = useState(false);
     const[points, setPoints] = useState({x: 0, y: 0});
 
-    const ref = useRef(null);
+    const[moved, setMoved] = useState({x: 0, y: 0});
 
     const dispatch = useDispatch();
 
@@ -23,7 +23,7 @@ function ModelComponent(props) {
         const handleWindowClick = () => setShowContextMenu(false);
         window.addEventListener('click', handleWindowClick);
         return () => window.removeEventListener('click', handleWindowClick);
-    }, [])
+    }, [component]);
 
     function handleClick(e){
         if(e.detail === 2)
@@ -34,19 +34,17 @@ function ModelComponent(props) {
         setShowModal(false);
     }
 
-    function handleStop(e){
-        console.log(e); //CHANGE TOP, LEFT
-        console.log(ref.current.state.x);
-        console.log(ref.current.state.y);
-        //dispatch(updateElement({...component, x: component.x + ref.current.state.x, y: component.y + ref.current.state.y})); -> FIX THE DROP POSITION AND IT WILL WORK NICELY || SAVE BACKUP POSITION
+    function handleStop(e, data){
+        setMoved({x: data.x, y: data.y});
+        // dispatch(updateElement({...component, x: component.x + data.x, y: component.y + data.y})); //-> FIX THE DROP POSITION AND IT WILL WORK NICELY || SAVE BACKUP POSITION
         props.onStop();
     }
 
     function handleContextClick(e){
         e.preventDefault();
-        let offsetX = props.left + 260;
-        let offsetY = props.top + 59;
-        setPoints({x: e.pageX - offsetX, y: e.pageY - offsetY});
+        let offsetX = e.pageX-component.x-260;
+        let offsetY = e.pageY-component.y-59;
+        setPoints({x: offsetX-moved.x, y: offsetY-moved.y});
         setShowContextMenu(true);
     }
 
@@ -55,10 +53,10 @@ function ModelComponent(props) {
     }
 
     return (
-        <Draggable onDrag={props.onDrag} onStop={handleStop} ref={ref}>
+        <Draggable onDrag={props.onDrag} onStop={handleStop}>
             <div
                 id={`${component.name}`}
-                style={{top: `${props.top}px`, left: `${props.left}px`, backgroundColor: getBgColor(props.type), minHeight: '150px', minWidth: '130px', width: `${component.name.length * 10}px`, position: 'fixed', zIndex: -1, display:'flex'}}
+                style={{top: `${component.y}px`, left: `${component.x}px`, backgroundColor: getBgColor(props.type), minHeight: '150px', minWidth: '130px', width: `${component.name.length * 10}px`, position: 'fixed', zIndex: -1, display:'flex'}}
                 onClick={handleClick}
                 onContextMenu={handleContextClick}
             >

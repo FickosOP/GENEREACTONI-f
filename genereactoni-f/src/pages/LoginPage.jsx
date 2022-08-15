@@ -26,13 +26,13 @@ function LoginPage(){
 
     return(
         <div className="App-header" style={{justifyContent: 'center'}}> 
-            <div style={{width: '50%', display:'flex', flexDirection: 'column', minHeight: '500px'}}>
+            <div className="loginWrapper">
                 <input type="text" onChange={(e) => setUsername(e.target.value)} placeholder="Username" className="loginInput"/>
                 <input type="password" onChange={(e) => setPassword(e.target.value)} placeholder="Password" className="loginInput"/>
                 <button onClick={login} className="loginButton">Login</button>
                 <div>
-                <a href="/" style={{color: '#61dafb'}}>Continue without account</a><br/>
-                <a href="/register" style={{color: '#61dafb'}}>Register</a>
+                <a href="/" className="reactColor">Continue without account</a><br/>
+                <a href="/register" className="reactColor">Register</a>
                 </div>
             </div>
         </div>

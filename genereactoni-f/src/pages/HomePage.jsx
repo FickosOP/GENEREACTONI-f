@@ -1,13 +1,13 @@
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
 import ModelComponent from "../components/ModelComponent";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useDrop } from "react-dnd";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
-import { addPathToModel, INITIAL_COMPONENT_STATE, INITIAL_MODEL } from "../utils/initialModelState";
+import { INITIAL_COMPONENT_STATE, INITIAL_MODEL } from "../utils/initialModelState";
 import { useSelector, useDispatch } from 'react-redux';
 import { addElement } from "../actions/actions";
-import { download, downloadZip, postObject } from "../services/axiosService";
+import { downloadZip, postObject } from "../services/axiosService";
 import { getOffsetForItem } from "../utils/helper";
 import Xarrow, {useXarrow} from "react-xarrows";
 
@@ -17,6 +17,7 @@ function HomePage(){
 
     const model = useSelector(state => state.modelReducer);
     const structure = useSelector(state => state.structureReducer);
+    const arrows = useSelector(state => state.arrowReducer);
 
     const updateArrows = useXarrow();
 
@@ -33,7 +34,7 @@ function HomePage(){
     const addImageToCanvas = (item, monitor) => {
         let initClient = monitor.getInitialClientOffset();
         let itemOffset = getOffsetForItem(item.id);
-        let divOffset = {x: initClient.x - itemOffset.x, y: initClient.y - itemOffset.y}
+        let divOffset = {x: initClient.x - itemOffset.x + 260, y: initClient.y - itemOffset.y + 59}
         
         let coordinates = monitor.getClientOffset();
 
@@ -53,12 +54,15 @@ function HomePage(){
         setMoving(true);
     }
 
-    function generateModel(){
+    function generateModel(generate){
         let full = Object.assign({}, INITIAL_MODEL);
         full.structure = structure;
         full.model = model;
-        console.log(full);
-        downloadZip('model/generate', full); 
+        if(generate)
+            downloadZip('model/generate', full); 
+        else{
+            postObject('model/', full, (response) => console.log(response.data)); //save
+        }
     }
 
     return(
@@ -87,12 +91,12 @@ function HomePage(){
                 <div className="canvasPan" ref={drop}>
                     {
                         model.components?.map((comp) => {
-                            return <ModelComponent id={comp.id} type={comp.type} top={comp.y - 59} left={comp.x - 260} onDrag={onDrag} onStop={onStop} key={comp.id}/>
+                            return <ModelComponent id={comp.id} type={comp.type} top={comp.y} left={comp.x} onDrag={onDrag} onStop={onStop} key={comp.id}/>
                         })
                     }
                     {
                         model.pages?.map((page) => {
-                            return <ModelComponent id={page.id} type={page.type} top={page.y - 59} left={page.x - 260} onDrag={onDrag} onStop={onStop} key={page.id}/>
+                            return <ModelComponent id={page.id} type={page.type} top={page.y} left={page.x} onDrag={onDrag} onStop={onStop} key={page.id}/>
                         })
                     }
                 </div>
@@ -107,6 +111,8 @@ function HomePage(){
                     key={`p${i},${j}`}
                     start={page.name}
                     end={child}
+                    showXarrow={arrows.show}
+                    path={arrows.type}
                 />
             ))
         ))
@@ -118,6 +124,8 @@ function HomePage(){
                     key={`c${i},${j}`} 
                     start={component.name}
                     end={child}
+                    showXarrow={arrows.show}
+                    path={arrows.type}
                 />
             ))
         ))

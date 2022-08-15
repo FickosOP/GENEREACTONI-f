@@ -24,14 +24,14 @@ function RegisterPage(){
     }
 
     return(
-        <div>
-            <div>
-                <input type="text" placeholder="Username" onChange={(e) => setUsername(e.target.value)} className="required"/>
-                <input type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} className="required"/>
-                <input type="password" placeholder="Repeat password" onChange={(e) => setRepeatPassword(e.target.value)} className="required"/>
-                <label>{password === repeatPassword ? '' : 'Passwords are not matching'}</label>
-                <input type="text" placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
-                <button onClick={register}>Register</button>
+        <div className="App-header" style={{justifyContent: 'center'}}>
+            <div className="loginWrapper">
+                <input type="text" placeholder="Username" onChange={(e) => setUsername(e.target.value)} className="loginInput"/>
+                <input type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} className="loginInput"/>
+                <input type="password" placeholder="Repeat password" onChange={(e) => setRepeatPassword(e.target.value)} className="loginInput"/>
+                <label style={{fontSize: '18px'}}>{password === repeatPassword ? '' : 'Passwords are not matching'}</label>
+                <input type="text" placeholder="Email" onChange={(e) => setEmail(e.target.value)} className="loginInput"/>
+                <button onClick={register} className="loginButton">Register</button>
             </div>
         </div>
     )

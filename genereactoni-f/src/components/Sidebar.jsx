@@ -1,13 +1,12 @@
 import { useState } from "react";
 import Picture from "./Picture";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 import comp from "../assets/images/component.svg";
 import page from "../assets/images/page.svg";
 import serv from "../assets/images/service.svg";
 import util from "../assets/images/util.svg";
-import { newProject } from "../actions/actions";
-import { INITIAL_MODEL } from "../utils/initialModelState";
+import { changeArrowType, hideArrows, newProject, showArrows } from "../actions/actions";
 
 const pictureList = [
     {
@@ -34,6 +33,8 @@ function Sidebar(props){
 
     const [displayAdvanced, setDisplayAdvanced] = useState(true);
 
+    const arrows = useSelector(state => state.arrowReducer);
+
     const dispatch = useDispatch();
 
     return(
@@ -52,10 +53,16 @@ function Sidebar(props){
             </div>
             <button className="expandable" onClick={() => setDisplayAdvanced(!displayAdvanced)}>Advanced</button>
             <div className="sidebarBlockAdvanced" style={{display: displayAdvanced ? "" : "none"}}>
-                display
+                <button className="modalButton" onClick={() => {arrows.show ? dispatch(hideArrows()) : dispatch(showArrows())}}>{arrows.show ? `Hide arrows` : `Show arrows`}</button>
+                <br />
+                <select className="modalButton" onChange={(e) => dispatch(changeArrowType(e.target.value.toLowerCase()))}>
+                    <option>Smooth</option>
+                    <option>Grid</option>
+                    <option>Straight</option>
+                </select>
             </div>
-            <button className="saveButton" onClick={() => props.generateHandler()} style={{marginTop: '50px'}}>Save</button>
-            <button className="modalButton" onClick={() => props.generateHandler()} >Generate React project</button>
+            <button className="sidebarButton" onClick={() => props.generateHandler(false)} style={{marginTop: '50px'}}>Save</button>
+            <button className="sidebarButton" onClick={() => props.generateHandler(true)} >Generate React project</button>
         </div>
     )
 }
